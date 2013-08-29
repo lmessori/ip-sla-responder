@@ -257,7 +257,15 @@ int main(int argc, char * const argv[]) {
    // need to activate before setting datalink and filter
    pcap_activate(p);
    if (pcap_set_datalink(p, 1) != 0) {
+     int *dlts,i,num;
      pcap_perror(p, "pcap_set_datalink");
+     num = pcap_list_datalinks(p, &dlts);
+     for (i=0; i<num; i++)
+     {
+        printf("%d - %s - %s\n",dlts[i],
+              pcap_datalink_val_to_name(dlts[i]),
+              pcap_datalink_val_to_description(dlts[i]));
+     }
      exit(1);
    }
 
